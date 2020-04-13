@@ -353,7 +353,7 @@
                         <viewLayoutGuide key="safeArea" id="Put-dy-tSE"/>
                     </view>
                     <connections>
-                        <outlet property="label" destination="S34-Ih-JWu" id="JaF-eo-2wB"/>
+                        <outlet property="numbersLabel" destination="S34-Ih-JWu" id="JaF-eo-2wB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IZ2-8S-aXz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

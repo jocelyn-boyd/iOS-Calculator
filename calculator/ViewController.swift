@@ -9,111 +9,85 @@
 import UIKit
 
 class ViewController: UIViewController {
- 
+  
   var numberOnScreen: Double = 0
   var previousNumber: Double = 0
   var performingMath = false
   var operation = 0
   
-  @IBOutlet weak var label: UILabel!
+  @IBOutlet weak var numbersLabel: UILabel!
   
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
   }
- 
+  
+  
   @IBAction func numbers(_ sender: UIButton) {
     
     if performingMath == true {
-      label.text = String(sender.tag)
-      numberOnScreen = Double(label.text!)!
+      numbersLabel.text = String(sender.tag)
+      numberOnScreen = Double(numbersLabel.text!)!
       performingMath = false
-    }
-    else
-    {
-      label.text = label.text! + String(sender.tag)
-      numberOnScreen = Double(label.text!)!
+    } else {
+      numbersLabel.text = numbersLabel.text! + String(sender.tag)
+      numberOnScreen = Double(numbersLabel.text!)!
     }
   }
   
-//refactor into a switch statement
+
   @IBAction func buttons(_ sender: UIButton) {
+    let divisionTag = 10
+    let multipyTag = 11
+    let subtractionTag = 12
+    let additionTag = 13
     let equalSignTag = 14
-    let resetButtonTag = 15
+    let resetButtonTag = 16
+    let operationsTag = sender.tag
     
-    if label.text != nil && sender.tag != equalSignTag && sender.tag != resetButtonTag {
-      
-      previousNumber = Double(label.text!)!
-      
-      if sender.tag == 10 //Divide
-      {
-        label.text = "/"
+    let addition = {
+      (numOne: Int, numTwo: Int) -> Int in
+      return numOne + numTwo
+    }
+    
+    if numbersLabel.text != nil && sender.tag != equalSignTag && sender.tag != resetButtonTag {
+      guard numbersLabel.text != nil else { return }
+      switch operationsTag {
+      case divisionTag:
+        numbersLabel.text = "/"
+      case multipyTag:
+        numbersLabel.text = "x"
+      case subtractionTag:
+        numbersLabel.text = "-"
+      case additionTag:
+        numbersLabel.text = "+"
+      default:
+        clearNumbersOnScreen()
       }
-      
-      else if sender.tag == 11 //Multiply
-      {
-        label.text = "X"
-      }
-      
-      else if sender.tag == 12 //Minus
-      {
-        label.text = "-"
-      }
-      
-      else if sender.tag == 13 //Plus
-      {
-        label.text = "+"
-      }
-      operation = sender.tag
       performingMath = true
     }
-    else if sender.tag == 14 {
-      if operation == 10
-      {
-        label.text = String(previousNumber / numberOnScreen)
-      }
-      else if operation == 11
-      {
-        label.text = String(previousNumber * numberOnScreen)
-      }
-      else if operation == 12
-      {
-        label.text = String(previousNumber - numberOnScreen)
-      }
-      else if operation == 13
-      {
-        label.text = String(previousNumber + numberOnScreen)
+  
+    
+    if sender.tag == equalSignTag {
+      switch operationsTag {
+      case additionTag:
+        let result = addition(Int(previousNumber), Int(numberOnScreen))
+        print("\(numbersLabel.text = result.description)")
+      default:
+        clearNumbersOnScreen()
       }
     }
-    else if sender.tag == 15
-    {
-      label.text = ""
-      previousNumber = 0
-      numberOnScreen = 0
-      operation = 0
-    }
-  }
- 
-  /*
-  let division = {
-    (numOne: Int, numTwo: Int) -> Int in
-    return numOne / numTwo
+    
+    
   }
   
-  let multipication = {
-    (numOne: Int, numTwo: Int) -> Int in
-    return numOne * numTwo
-  }
   
-  let addition = {
-    (numOne: Int, numTwo: Int) -> Int in
-    return numOne + numTwo
+  private func clearNumbersOnScreen() {
+    numbersLabel.text = ""
+    previousNumber = 0
+    numberOnScreen = 0
+    operation = 0
+    performingMath = false
   }
-  
-  let subtraction = {
-    (numOne: Int, numTwo: Int) -> Int in
-    return numOne - numTwo
-  }
-*/
   
 }
